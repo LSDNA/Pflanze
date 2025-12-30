@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <style>
+        :root {
+            --accent-color: #7a9e7e; /* Das Grün aus deinem Icon */
+            --bg-glass: rgba(255, 255, 255, 0.4);
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: transparent;
+            font-family: 'serif'; /* Nutzt Standardschrift des Systems */
+            overflow: hidden;
+        }
+
+        .widget-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Hover Effekt: Sanftes Leuchten und Heben */
+        .widget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(122, 158, 126, 0.2);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .icon {
+            font-size: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .widget-card:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .message {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-size: 0.9rem;
+        }
+
+        /* Klick-Animation */
+        .clicked .message {
+            opacity: 1;
+        }
+        
+        /* Simpler Glitzer-Effekt-Punkt */
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="widget-card" id="widget" onclick="handleClick()">
+        <div class="icon">🌱</div>
+        <div class="message" id="text">Make it happen.</div>
+    </div>
+
+    <script>
+        const messages = [
+            "You got this, boss.",
+            "Stay focused.",
+            "Breathe deeply.",
+            "Leveling up...",
+            "Aesthetic & Productive."
+        ];
+
+        function handleClick() {
+            const widget = document.getElementById('widget');
+            const text = document.getElementById('text');
+            
+            // Zufällige Nachricht wählen
+            text.innerText = messages[Math.floor(Math.random() * messages.length)];
+            
+            widget.classList.add('clicked');
+            
+            // Kleiner Glitzer-Effekt-Simulation
+            for(let i=0; i<8; i++) {
+                createSparkle();
+            }
+
+            setTimeout(() => {
+                widget.classList.remove('clicked');
+            }, 3000);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            document.body.appendChild(sparkle);
+            
+            const x = window.innerWidth / 2 + (Math.random() - 0.5) * 100;
+            const y = window.innerHeight / 2 + (Math.random() - 0.5) * 100;
+            
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            
+            sparkle.animate([
+                { transform: 'scale(0)', opacity: 1 },
+                { transform: 'scale(1.5)', opacity: 0 }
+            ], { duration: 1000, easing: 'ease-out' });
+            
+            setTimeout(() => sparkle.remove(), 1000);
+        }
+    </script>
+</body>
+</html>
